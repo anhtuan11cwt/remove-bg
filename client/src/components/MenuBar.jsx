@@ -1,10 +1,29 @@
-import { Menu, X } from "lucide-react";
+import {
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useClerk,
+  useUser,
+} from "@clerk/clerk-react";
+import { Coins, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { assets } from "../assets/assets";
 
 const MenuBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { openSignIn, openSignUp } = useClerk();
+  const { user } = useUser();
+
+  const openLogin = () => {
+    openSignIn({});
+    setMenuOpen(false);
+  };
+
+  const openRegister = () => {
+    openSignUp({});
+    setMenuOpen(false);
+  };
 
   return (
     <nav className="relative flex justify-between items-center bg-white shadow-sm px-6 py-4">
@@ -18,18 +37,32 @@ const MenuBar = () => {
 
       {/* RIGHT - Desktop Buttons */}
       <div className="hidden md:flex items-center gap-4">
-        <button
-          className="font-medium text-gray-700 hover:text-blue-500 transition"
-          type="button"
-        >
-          Đăng nhập
-        </button>
-        <button
-          className="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-full font-medium text-gray-700 transition"
-          type="button"
-        >
-          Đăng ký
-        </button>
+        <SignedOut>
+          <button
+            className="font-medium text-gray-700 hover:text-blue-500 transition"
+            onClick={openLogin}
+            type="button"
+          >
+            Đăng nhập
+          </button>
+          <button
+            className="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-full font-medium text-gray-700 transition"
+            onClick={openRegister}
+            type="button"
+          >
+            Đăng ký
+          </button>
+        </SignedOut>
+        <SignedIn>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1 text-sm">
+              <Coins className="w-4 h-4 text-yellow-500" />
+              Tín dụng: 0
+            </div>
+            <p className="font-medium text-sm">Hi, {user?.fullName}</p>
+            <UserButton />
+          </div>
+        </SignedIn>
       </div>
 
       {/* MOBILE - Hamburger Button */}
@@ -41,19 +74,33 @@ const MenuBar = () => {
 
       {/* MOBILE - Dropdown Menu */}
       {menuOpen && (
-        <div className="top-16 right-6 absolute flex flex-col gap-3 bg-white shadow-lg p-4 rounded-xl w-40">
-          <button
-            className="font-medium text-gray-700 hover:text-blue-500"
-            type="button"
-          >
-            Đăng nhập
-          </button>
-          <button
-            className="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-full font-medium text-gray-700"
-            type="button"
-          >
-            Đăng ký
-          </button>
+        <div className="top-16 right-6 absolute flex flex-col gap-3 bg-white shadow-lg p-4 rounded-xl w-48">
+          <SignedOut>
+            <button
+              className="font-medium text-gray-700 hover:text-blue-500"
+              onClick={openLogin}
+              type="button"
+            >
+              Đăng nhập
+            </button>
+            <button
+              className="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-full font-medium text-gray-700"
+              onClick={openRegister}
+              type="button"
+            >
+              Đăng ký
+            </button>
+          </SignedOut>
+          <SignedIn>
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-1 text-sm">
+                <Coins className="w-4 h-4 text-yellow-500" />
+                Tín dụng: 0
+              </div>
+              <p className="font-medium text-sm">{user?.fullName}</p>
+              <UserButton />
+            </div>
+          </SignedIn>
         </div>
       )}
     </nav>
