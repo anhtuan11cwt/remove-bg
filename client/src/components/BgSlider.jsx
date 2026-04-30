@@ -36,15 +36,11 @@ const BgSlider = () => {
       {/* Image Comparison Slider */}
       <div className="relative shadow-lg mx-auto rounded-2xl max-w-3xl overflow-hidden">
         {/* Original Image (Background) */}
-        <img
-          alt="Original"
-          className="w-full h-auto"
-          src={assets.beforeImage}
-        />
+        <img alt="Ảnh gốc" className="w-full h-auto" src={assets.beforeImage} />
 
         {/* Processed Image (Foreground with clip-path) */}
         <img
-          alt="Background Removed"
+          alt="Đã xóa nền"
           className="top-0 left-0 absolute w-full h-full object-cover"
           src={assets.afterImage}
           style={{

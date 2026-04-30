@@ -6,7 +6,7 @@ const Header = () => {
       {/* LEFT - BANNER IMAGE */}
       <div className="flex justify-center">
         <img
-          alt="AI Background Removal"
+          alt="Xóa nền ảnh bằng AI"
           className="shadow-lg rounded-2xl w-full max-w-[400px] object-cover"
           src={assets.videoBanner}
         />

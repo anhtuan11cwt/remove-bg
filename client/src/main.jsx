@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
+import AppContextProvider from "./context/AppContext.jsx";
 
 const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -13,8 +14,10 @@ if (!publishableKey) {
 
 createRoot(document.getElementById("root")).render(
   <ClerkProvider localization={viVN} publishableKey={publishableKey}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <AppContextProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AppContextProvider>
   </ClerkProvider>,
 );

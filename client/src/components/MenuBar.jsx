@@ -2,18 +2,44 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
+  useAuth,
   useClerk,
   useUser,
 } from "@clerk/clerk-react";
 import { Coins, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { assets } from "../assets/assets";
 
 const MenuBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [credit, setCredit] = useState(false);
   const { openSignIn, openSignUp } = useClerk();
   const { user } = useUser();
+  const { getToken } = useAuth();
+
+  useEffect(() => {
+    const fetchCredits = async () => {
+      if (user) {
+        const url = `${import.meta.env.VITE_BACKEND_URL}/users/credits`;
+
+        try {
+          const token = await getToken();
+          const res = await fetch(url, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const data = await res.json();
+          setCredit(data.data?.credits || 0);
+        } catch {
+          setCredit(0);
+        }
+      }
+    };
+
+    fetchCredits();
+  }, [user, getToken]);
 
   const openLogin = () => {
     openSignIn({});
@@ -57,9 +83,9 @@ const MenuBar = () => {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1 text-sm">
               <Coins className="w-4 h-4 text-yellow-500" />
-              Tín dụng: 0
+              Tín dụng: {credit !== false ? credit : "..."}
             </div>
-            <p className="font-medium text-sm">Hi, {user?.fullName}</p>
+            <p className="font-medium text-sm">Xin chào, {user?.fullName}</p>
             <UserButton />
           </div>
         </SignedIn>
@@ -95,7 +121,7 @@ const MenuBar = () => {
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-1 text-sm">
                 <Coins className="w-4 h-4 text-yellow-500" />
-                Tín dụng: 0
+                Tín dụng: {credit !== false ? credit : "..."}
               </div>
               <p className="font-medium text-sm">{user?.fullName}</p>
               <UserButton />
