@@ -5,6 +5,7 @@ import com.example.remove_bg.entity.UserEntity;
 import com.example.remove_bg.repository.UserRepository;
 import com.example.remove_bg.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,6 @@ public class UserServiceImpl implements UserService {
                 .orElseGet(() -> mapToEntity(dto));
 
         UserEntity saved = userRepository.save(user);
-
         return mapToDto(saved);
     }
 
@@ -54,5 +54,21 @@ public class UserServiceImpl implements UserService {
                 .photoUrl(entity.getPhotoUrl())
                 .credits(entity.getCredits())
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserByClerkId(String clerkId) {
+        UserEntity user = userRepository.findByClerkId(clerkId)
+                .orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy người dùng với clerkId: " + clerkId));
+        userRepository.delete(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserDTO getUserByClerkId(String clerkId) {
+        UserEntity user = userRepository.findByClerkId(clerkId)
+                .orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy người dùng với clerkId: " + clerkId));
+        return mapToDto(user);
     }
 }
