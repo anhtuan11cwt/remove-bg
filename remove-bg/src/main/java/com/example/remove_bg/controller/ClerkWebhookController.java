@@ -68,8 +68,8 @@ public class ClerkWebhookController {
     }
 
     private boolean verifyWebhookSignature(String svixId, String svixTimestamp, String svixSignature, String payload) {
-        // Dev: return true for development
-        // Production: use Svix library to verify
+        // Môi trường dev: luôn trả về true
+        // Môi trường production: sử dụng thư viện Svix để xác minh
         return true;
     }
 
@@ -96,6 +96,7 @@ public class ClerkWebhookController {
                 .firstName(firstName)
                 .lastName(lastName)
                 .photoUrl(photoUrl)
+                .credits(5)
                 .build();
 
         userService.saveUser(user);

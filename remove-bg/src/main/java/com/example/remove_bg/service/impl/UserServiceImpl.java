@@ -31,6 +31,10 @@ public class UserServiceImpl implements UserService {
         existing.setFirstName(dto.getFirstName());
         existing.setLastName(dto.getLastName());
         existing.setPhotoUrl(dto.getPhotoUrl());
+        // Only update credits if explicitly provided (not null)
+        if (dto.getCredits() != null) {
+            existing.setCredits(dto.getCredits());
+        }
         return existing;
     }
 
@@ -70,5 +74,14 @@ public class UserServiceImpl implements UserService {
         UserEntity user = userRepository.findByClerkId(clerkId)
                 .orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy người dùng với clerkId: " + clerkId));
         return mapToDto(user);
+    }
+
+    @Override
+    @Transactional
+    public void addCredits(String clerkId, Integer credits) {
+        UserEntity user = userRepository.findByClerkId(clerkId)
+                .orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy người dùng với clerkId: " + clerkId));
+        user.setCredits(user.getCredits() + credits);
+        userRepository.save(user);
     }
 }

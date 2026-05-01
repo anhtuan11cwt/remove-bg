@@ -55,7 +55,7 @@ public class SecurityConfig {
                 "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"
         ));
         configuration.setAllowedHeaders(Arrays.asList(
-                "Authorization", "Content-Type", "Accept"
+                "Authorization", "Content-Type", "Accept", "clerkId"
         ));
         configuration.setExposedHeaders(List.of("Authorization"));
         configuration.setAllowCredentials(true);

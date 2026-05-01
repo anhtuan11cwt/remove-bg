@@ -9,4 +9,6 @@ public interface UserService {
     void deleteUserByClerkId(String clerkId);
 
     UserDTO getUserByClerkId(String clerkId);
+
+    void addCredits(String clerkId, Integer credits);
 }
