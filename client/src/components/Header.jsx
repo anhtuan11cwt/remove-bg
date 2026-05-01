@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import { assets } from "../assets/assets";
+import { AppContext } from "../context/AppContext";
 
 const Header = () => {
+  const { removeBg } = useContext(AppContext);
   return (
     <div className="items-center gap-12 grid grid-cols-1 md:grid-cols-2 mb-16">
       {/* LEFT - BANNER IMAGE */}
@@ -22,7 +25,13 @@ const Header = () => {
           Tải ảnh lên và để AI xóa nền trong vài giây với chất lượng tuyệt vời.
         </p>
 
-        <input accept="image/*" hidden id="upload1" type="file" />
+        <input
+          accept="image/*"
+          hidden
+          id="upload1"
+          onChange={(e) => e.target.files[0] && removeBg(e.target.files[0])}
+          type="file"
+        />
 
         <label
           className="inline-block bg-black hover:opacity-80 px-8 py-4 rounded-full text-white transition cursor-pointer"

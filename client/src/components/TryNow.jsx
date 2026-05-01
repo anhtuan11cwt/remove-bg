@@ -1,4 +1,8 @@
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
+
 const TryNow = () => {
+  const { removeBg } = useContext(AppContext);
   return (
     <div className="mb-16 text-center">
       <h2 className="mb-4 font-bold text-3xl md:text-4xl">Xóa Nền Ảnh</h2>
@@ -7,7 +11,13 @@ const TryNow = () => {
         Dùng thử miễn phí ngay. Không cần đăng ký.
       </p>
 
-      <input accept="image/*" hidden id="upload2" type="file" />
+      <input
+        accept="image/*"
+        hidden
+        id="upload2"
+        onChange={(e) => e.target.files[0] && removeBg(e.target.files[0])}
+        type="file"
+      />
 
       <label
         className="inline-block bg-black hover:opacity-80 px-8 py-4 rounded-full text-white transition cursor-pointer"

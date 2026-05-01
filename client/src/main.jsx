@@ -14,10 +14,10 @@ if (!publishableKey) {
 
 createRoot(document.getElementById("root")).render(
   <ClerkProvider localization={viVN} publishableKey={publishableKey}>
-    <AppContextProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AppContextProvider>
         <App />
-      </BrowserRouter>
-    </AppContextProvider>
+      </AppContextProvider>
+    </BrowserRouter>
   </ClerkProvider>,
 );
