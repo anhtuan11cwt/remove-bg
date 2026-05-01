@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import MenuBar from "./components/MenuBar";
 import UserSyncHandler from "./components/UserSyncHandler";
 import Home from "./pages/Home";
+import PaymentSuccess from "./pages/PaymentSuccess";
 import Result from "./pages/Result";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           }
           path="/result"
         />
+        <Route element={<PaymentSuccess />} path="/payment-success" />
       </Routes>
       <Footer />
     </div>

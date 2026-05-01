@@ -1,6 +1,39 @@
+import { useClerk, useUser } from "@clerk/clerk-react";
+import { useContext, useState } from "react";
+import toast from "react-hot-toast";
 import { plans } from "../assets/assets";
+import { AppContext } from "../context/AppContext";
+import { placeOrder } from "../service/orderService";
 
 const Pricing = () => {
+  const { isSignedIn, user } = useUser();
+  const { openSignIn, session } = useClerk();
+  const { backendUrl, loadUserCredits } = useContext(AppContext);
+  const [loading, setLoading] = useState(false);
+
+  const handleOrder = async (planId) => {
+    try {
+      if (!isSignedIn) {
+        openSignIn();
+        return;
+      }
+
+      if (loading) return;
+      setLoading(true);
+
+      await placeOrder({
+        backendUrl,
+        clerkId: user?.id,
+        getToken: () => session.getToken(),
+        onSuccess: loadUserCredits,
+        planId,
+      });
+    } catch {
+      toast.error("Có lỗi xảy ra khi xử lý đơn hàng");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="mb-16 text-center">
       <h2 className="mb-12 font-bold text-3xl md:text-4xl">
@@ -30,10 +63,12 @@ const Pricing = () => {
             <p className="text-gray-600">{plan.credits}</p>
 
             <button
-              className="bg-linear-to-r from-purple-500 to-indigo-500 hover:opacity-90 mt-6 py-3 rounded-full w-full font-medium text-white transition"
+              className="bg-linear-to-r from-purple-500 to-indigo-500 hover:opacity-90 disabled:opacity-50 mt-6 py-3 rounded-full w-full font-medium text-white transition disabled:cursor-not-allowed"
+              disabled={loading}
+              onClick={() => handleOrder(plan.planId)}
               type="button"
             >
-              Chọn Gói
+              {loading ? "Đang xử lý..." : "Chọn Gói"}
             </button>
           </div>
         ))}

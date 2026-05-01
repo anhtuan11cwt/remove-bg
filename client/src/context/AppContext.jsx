@@ -30,8 +30,8 @@ const AppContextProvider = ({ children }) => {
       if (res.data.success) {
         setCredit(res.data.data.credits);
       }
-    } catch (error) {
-      console.error("Lỗi tải tín dụng:", error);
+    } catch {
+      toast.error("Lỗi tải tín dụng");
     }
   };
 
@@ -66,8 +66,7 @@ const AppContextProvider = ({ children }) => {
         toast.error("Lỗi: Cấu trúc response không hợp lệ");
       }
       setCredit((prev) => prev - 1);
-    } catch (error) {
-      console.error(error);
+    } catch {
       toast.error("Lỗi khi xóa nền ảnh");
     }
   };

@@ -32,18 +32,21 @@ export const plans = [
   {
     credits: "100 tín dụng",
     name: "Cơ Bản",
+    planId: "basic",
     popular: false,
     price: "149.000₫",
   },
   {
     credits: "250 tín dụng",
-    name: "Cao Cấp",
+    name: "Nâng Cao",
+    planId: "premium",
     popular: true,
     price: "269.000₫",
   },
   {
     credits: "1000 tín dụng",
-    name: "Toàn Năng",
+    name: "Cao Cấp",
+    planId: "ultimate",
     popular: false,
     price: "449.000₫",
   },
