@@ -1,7 +1,13 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-export const placeOrder = async ({ planId, clerkId, getToken, backendUrl }) => {
+export const placeOrder = async ({
+  planId,
+  clerkId,
+  getToken,
+  backendUrl,
+  onSuccess,
+}) => {
   try {
     const token = await getToken();
 
@@ -23,6 +29,9 @@ export const placeOrder = async ({ planId, clerkId, getToken, backendUrl }) => {
         window.location.href = checkoutUrl;
       } else {
         toast.error("Không tìm thấy URL thanh toán");
+      }
+      if (onSuccess) {
+        onSuccess();
       }
     }
   } catch (error) {

@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import MenuBar from "./components/MenuBar";
 import UserSyncHandler from "./components/UserSyncHandler";
+import BuyCredits from "./pages/BuyCredits";
 import Home from "./pages/Home";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Result from "./pages/Result";
@@ -25,6 +26,7 @@ function App() {
           path="/result"
         />
         <Route element={<PaymentSuccess />} path="/payment-success" />
+        <Route element={<BuyCredits />} path="/pricing" />
       </Routes>
       <Footer />
     </div>
